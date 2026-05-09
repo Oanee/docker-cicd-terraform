@@ -26,46 +26,20 @@ The app provides:
 
 ## ⚡ Quick Setup
 
-### 1) Local prerequisites
+### Prerequisites
 
-- Install Node.js 18
-- Install npm 10
-- Install MongoDB 6
+- Install Docker
 
-### 2) Backend setup
-
-```bash
-cd backend
-npm install
-```
+### Setup
 
 Create a `.env` file in `backend/` with the following values:
 
 ```env
-MONGO_URI=mongodb://127.0.0.1:27017
+MONGO_URI=mongodb://mongo:27017
 DATABASE_NAME=app
 PORT=3001
 SECRET_KEY=secret-key-dev
 NODE_ENV=development
-```
-
-Seed the database with initial data:
-
-```bash
-npm run seed
-```
-
-Start the backend server:
-
-```bash
-npm start
-```
-
-### 3) Frontend setup
-
-```bash
-cd frontend
-npm install
 ```
 
 Create a `.env` file in `frontend/` with the following values:
@@ -74,20 +48,22 @@ Create a `.env` file in `frontend/` with the following values:
 REACT_APP_API_URL=http://localhost:3001
 ```
 
-Start the frontend server:
+Build and start the services:
 
 ```bash
-npm start
+docker compose up --build
 ```
 
-⚠️ Troubleshooting if you have problems run this
+Seed the database with initial data:
 
 ```bash
-export NODE_OPTIONS=--openssl-legacy-provider
-npm start
+docker compose run backend npm run seed
 ```
 
-The frontend should run at `http://localhost:3000`.
+The application will be available at:
+
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:3001`
 
 ## 🧩 API Endpoints
 
@@ -125,13 +101,14 @@ This account is defined in `backend/seed_data/user_data.csv`.
 
 - The backend listens on port `3001` by default
 - The frontend calls the backend API at `http://localhost:3001`
-- Make sure MongoDB is running before seeding or starting the backend
+- Docker Compose handles starting MongoDB, backend, and frontend services
 
 ## 💡 Tips
 
-- Run backend and frontend in separate terminals
-- Seed the database before logging in with `npm run seed`
-- Restart the backend if you change environment variables
+- Use `docker compose up --build` to rebuild and start services after code changes
+- Use `docker compose down` to stop all services
+- Seed the database using `docker compose run backend npm run seed`
+- If you change environment variables, rebuild the containers with `docker compose up --build`
 
 ## 📚 Resources
 
