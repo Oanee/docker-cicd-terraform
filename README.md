@@ -28,8 +28,9 @@ The app provides:
 
 ### 1) Local prerequisites
 
-- Install Node.js: https://nodejs.org/
-- Install MongoDB or run a local MongoDB service
+- Install Node.js 18
+- Install npm 10
+- Install MongoDB 6
 
 ### 2) Backend setup
 
@@ -76,6 +77,13 @@ REACT_APP_API_URL=http://localhost:3001
 Start the frontend server:
 
 ```bash
+npm start
+```
+
+⚠️ Troubleshooting if you have problems run this
+
+```bash
+export NODE_OPTIONS=--openssl-legacy-provider
 npm start
 ```
 
