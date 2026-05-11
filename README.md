@@ -51,7 +51,7 @@ REACT_APP_API_URL=http://localhost:3001
 Build and start the services:
 
 ```bash
-docker compose up --build
+docker compose up
 ```
 
 Seed the database with initial data:

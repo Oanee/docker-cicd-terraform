@@ -15,7 +15,6 @@
     "backend",
     "redfin"
   ],
-  "author": "Alin Oancea",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",

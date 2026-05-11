@@ -9,7 +9,7 @@ services:
       - mongo-data:/data/db
 
   backend:
-    build: oanee/backend:1.0
+    image: oanee/backend:1.0
     container_name: backend
     env_file:
       - ./backend/.env
@@ -19,7 +19,7 @@ services:
       - mongo
 
   frontend:
-    build: oanee/frontend:1.0
+    image: oanee/frontend:1.0
     container_name: frontend
     env_file:
       - ./frontend/.env
