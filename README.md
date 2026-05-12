@@ -48,10 +48,16 @@ Create a `.env` file in `frontend/` with the following values:
 REACT_APP_API_URL=http://localhost:3001
 ```
 
-Build and start the services:
+Build and start the services in development mode:
 
 ```bash
-docker compose up
+docker compose --profile dev up
+```
+
+Build and start the services in production mode:
+
+```bash
+docker compose --profile prod up
 ```
 
 Seed the database with initial data:

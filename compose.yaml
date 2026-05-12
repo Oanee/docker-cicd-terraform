@@ -7,6 +7,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    profiles: ["dev", "prod"]
 
   backend:
     image: oanee/backend:latest
@@ -17,6 +18,21 @@ services:
       - "3001:3001"
     depends_on:
       - mongo
+    profiles: ["prod"]
+
+  backend-dev:
+    build: ./backend
+    container_name: backend-dev
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    profiles: ["dev"]
 
   frontend:
     image: oanee/frontend:latest
@@ -27,6 +43,21 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    profiles: ["prod"]
+
+  frontend-dev:
+    build: ./frontend
+    container_name: frontend-dev
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend-dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    profiles: ["dev"]
 
 volumes:
   mongo-data:
