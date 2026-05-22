@@ -17,3 +17,7 @@ yarn-error.log*
 
 .pnp
 .pnp.js
+
+*.tfvars
+*.tfstate
+*.tfstate.backup

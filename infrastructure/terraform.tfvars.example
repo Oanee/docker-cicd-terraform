@@ -1,0 +1,16 @@
+aws_region   = "eu-central-1"
+azs          = ["eu-central-1a", "eu-central-1b"]
+backend_port = 3001
+
+mongo_org_id      = "CHANGE_ME"
+mongo_public_key  = "CHANGE_ME"
+mongo_private_key = "CHANGE_ME"
+
+mongo_db_name  = "appdb"
+mongo_username = "CHANGE_ME"
+mongo_password = "CHANGE_ME"
+
+frontend_bucket = "CHANGE_ME"
+
+node_env       = "production"
+secret_jwt_key = "CHANGE_ME"
