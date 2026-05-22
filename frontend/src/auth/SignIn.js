@@ -26,9 +26,9 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <a color="inherit" href="https://material-ui.com/">
         Full-Stack App Template
-      </Link>{" "}
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>

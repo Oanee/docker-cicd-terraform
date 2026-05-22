@@ -5,7 +5,6 @@ import Chart from "./Chart";
 import HomesApi from "../../api/api";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import { Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -16,9 +15,9 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <a color="inherit" href="https://material-ui.com/">
         Full-Stack App Template
-      </Link>{" "}
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -35,7 +34,6 @@ function HomeContent() {
         let data = await HomesApi.getAllHomes();
         setHouseData(data);
         console.log("DATA FROM SERVER");
-        console.log(data);
       } catch (err) {
         console.log("error fetching data: ", err);
       }

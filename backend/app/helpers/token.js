@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../../config");
+const { SECRET_JWT_KEY } = require("../../config");
 
 /** Sign the token and return it */
 
@@ -9,7 +9,7 @@ function createToken(user) {
     isAdmin: user.isAdmin || false,
   };
 
-  return jwt.sign(payload, SECRET_KEY);
+  return jwt.sign(payload, SECRET_JWT_KEY);
 }
 
 module.exports = { createToken };

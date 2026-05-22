@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import Alert from "../../common/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container } from "@mui/material";
@@ -21,9 +20,9 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <a color="inherit" href="https://material-ui.com/">
         Full-Stack App Template
-      </Link>{" "}
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>

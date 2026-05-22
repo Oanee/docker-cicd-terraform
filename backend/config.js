@@ -1,7 +1,7 @@
 require("dotenv").config();
 require("colors");
 
-const SECRET_KEY = process.env.SECRET_KEY || "secret-key-dev";
+const SECRET_JWT_KEY = process.env.SECRET_JWT_KEY || "secret-key-dev";
 
 const PORT = process.env.PORT || 3001;
 
@@ -10,20 +10,20 @@ const PORT = process.env.PORT || 3001;
 function getDatabaseUri() {
   if (process.env.NODE_ENV === "test") return "app_test";
 
-  return process.env.DATABASE_NAME || "app";
+  return process.env.MONGO_DB_NAME || "app";
 }
 // Set bcrypt factor lower during testing
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
 
 console.log("Application Configuration: ".green);
-console.log("SECRET_KEY ".yellow, SECRET_KEY);
+console.log("SECRET_JWT_KEY ".yellow, SECRET_JWT_KEY);
 console.log("PORT:".yellow, PORT.toString());
 console.log("BCRYPT_WORK_FACTOR".yellow, BCRYPT_WORK_FACTOR);
 console.log("Database:".yellow, getDatabaseUri());
 console.log("---------------------------------".green);
 
 module.exports = {
-  SECRET_KEY,
+  SECRET_JWT_KEY,
   BCRYPT_WORK_FACTOR,
   PORT,
   getDatabaseUri,

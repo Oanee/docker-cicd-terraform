@@ -8,7 +8,10 @@ const app = express();
 
 var corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || origin.includes("localhost")) {
+    if (
+      !origin ||
+      origin.includes(process.env.API_URL)
+    ) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));

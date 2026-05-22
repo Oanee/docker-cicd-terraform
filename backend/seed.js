@@ -1,55 +1,64 @@
+require("dotenv").config();
 const csv = require("csv-parser");
 const fs = require("fs");
 const MongoClient = require("mongodb").MongoClient;
-const url = process.env.MONGO_URI || "mongodb://127.0.0.1:27017";
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("./config.js");
 const db = require("./app/models");
 const Homes = db.Homes;
 
-//Read in housing data
-fs.createReadStream("./seed_data/redfin_data.csv")
-  .pipe(csv())
-  .on("data", (row) => {
-    // Call mongoclient and insert
-    MongoClient.connect(url, function (err, db) {
-      if (err) throw err;
-      var dbo = db.db(process.env.DATABASE_NAME || "app");
-      var homeToInsert = new Homes(row);
+const url = process.env.MONGO_URI;
+if (!url) {
+  console.error("❌ MONGO_URI is missing from .env");
+  process.exit(1);
+}
 
-      // console.log(homeToInsert);
-      dbo.collection("houses").insertOne(homeToInsert, function (err, res) {
-        if (err) throw err;
-        console.log("1 document inserted");
-        db.close();
-      });
-    });
-  })
-  .on("end", () => {
-    console.log("CSV file has been processed");
+const dbName = process.env.MONGO_DB_NAME || "app";
+
+function seedFile(filePath, processRowFn) {
+  return new Promise((resolve, reject) => {
+    const promises = [];
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on("data", (row) => {
+        promises.push(processRowFn(row));
+      })
+      .on("end", async () => {
+        try {
+          await Promise.all(promises);
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      })
+      .on("error", (err) => reject(err));
   });
+}
 
-// Read in User data
-fs.createReadStream("./seed_data/user_data.csv")
-  .pipe(csv())
-  .on("data", (row) => {
-    // Call mongoclient and insert
-    MongoClient.connect(url, async function (err, db) {
-      if (err) throw err;
-      var dbo = db.db(process.env.DATABASE_NAME || "app");
-      var myObj = row;
-      myObj.password = await bcrypt.hash(myObj.password, BCRYPT_WORK_FACTOR);
-      myObj.isAdmin = true;
-      console.log("User to insert: ");
-      console.log(myObj);
+MongoClient.connect(url)
+  .then(async (client) => {
+    const dbo = client.db(dbName);
 
-      dbo.collection("users").insertOne(myObj, function (err, res) {
-        if (err) throw err;
-        console.log("1 document inserted");
-        db.close();
+    try {
+      await seedFile("./seed_data/redfin_data.csv", async (row) => {
+        const homeToInsert = new Homes(row);
+        await dbo.collection("houses").insertOne(homeToInsert);
       });
-    });
+
+      await seedFile("./seed_data/user_data.csv", async (row) => {
+        const myObj = { ...row };
+        myObj.password = await bcrypt.hash(myObj.password, BCRYPT_WORK_FACTOR);
+        myObj.isAdmin = true;
+        await dbo.collection("users").insertOne(myObj);
+      });
+
+      console.log("CSV files have been processed successfully");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      await client.close();
+    }
   })
-  .on("end", () => {
-    console.log("CSV file has been processed");
+  .catch((err) => {
+    console.error(err);
   });

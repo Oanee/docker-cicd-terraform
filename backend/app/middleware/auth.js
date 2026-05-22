@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../../config");
+const { SECRET_JWT_KEY } = require("../../config");
 const { UnauthorizedError } = require("../../expressError");
 
 /**
@@ -11,7 +11,7 @@ function authenticateJWT(req, res, next) {
     const authHeader = req.headers && req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /m, "").trim();
-      res.locals.user = jwt.verify(token, SECRET_KEY);
+      res.locals.user = jwt.verify(token, SECRET_JWT_KEY);
     }
     return next();
   } catch (err) {
