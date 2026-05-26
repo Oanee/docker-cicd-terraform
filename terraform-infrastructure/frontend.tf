@@ -1,5 +1,10 @@
 resource "aws_s3_bucket" "frontend" {
-  bucket = var.frontend_bucket
+  bucket        = var.frontend_bucket
+  force_destroy = true
+
+  tags = {
+    Environment = "production"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "frontend" {

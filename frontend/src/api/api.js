@@ -1,6 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
+const getBaseUrl = () => {
+  if (process.env.NODE_ENV === "production") {
+    return "";
+  }
+  return process.env.REACT_APP_API_URL || "http://localhost:3001";
+};
+
+const BASE_URL = getBaseUrl();
 
 class HomesApi {
   static token;

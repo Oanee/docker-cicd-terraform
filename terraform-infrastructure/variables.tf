@@ -4,12 +4,6 @@ variable "aws_region" {
   type        = string
 }
 
-variable "azs" {
-  description = "List of availability zones"
-  default     = ["eu-central-1a", "eu-central-1b"]
-  type        = list(string)
-}
-
 variable "backend_port" {
   description = "Port for the backend service"
   default     = 3001
