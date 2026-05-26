@@ -71,7 +71,10 @@ jobs:
   terraform-apply:
     name: Terraform Apply
     needs: terraform-plan
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && needs.terraform-plan.outputs.plan_exists == 'true'
+    if: >
+      github.ref == 'refs/heads/main' && 
+      github.event_name != 'pull_request' && 
+      needs.terraform-plan.outputs.plan_exists == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
